@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>善治美 - 智能表格管理系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-leaf"></i> 善治美</h1>
+                <div class="user-info">
+                    <span>张村长</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 功能导航卡片 -->
+            <section class="function-cards">
+                <div class="card active" data-tab="tasks">
+                    <i class="fas fa-tasks"></i>
+                    <h3>任务管理</h3>
+                    <p>接收和处理上级填表任务</p>
+                </div>
+                <div class="card" data-tab="upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>表格识别</h3>
+                    <p>上传表格并智能识别字段</p>
+                </div>
+                <div class="card" data-tab="notify">
+                    <i class="fas fa-bell"></i>
+                    <h3>村民通知</h3>
+                    <p>发送填表通知给村民</p>
+                </div>
+                <div class="card" data-tab="data">
+                    <i class="fas fa-database"></i>
+                    <h3>数据管理</h3>
+                    <p>查看填表结果和村级大表</p>
+                </div>
+            </section>
+
+            <!-- 任务管理页面 -->
+            <section id="tasks" class="tab-content active">
+                <div class="content-header">
+                    <h2>待处理任务</h2>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> 新建任务
+                    </button>
+                </div>
+                
+                <div class="task-list">
+                    <div class="task-item urgent">
+                        <div class="task-info">
+                            <h4>2024年农户收入统计表</h4>
+                            <p class="task-meta">
+                                <span class="source">来源：县农业局</span>
+                                <span class="deadline">截止：2024-10-15</span>
+                                <span class="status pending">待处理</span>
+                            </p>
+                            <p class="task-desc">需要收集全村农户2024年收入情况，包括种植收入、养殖收入等</p>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn btn-sm btn-primary">开始处理</button>
+                        </div>
+                    </div>
+
+                    <div class="task-item">
+                        <div class="task-info">
+                            <h4>村民健康档案更新</h4>
+                            <p class="task-meta">
+                                <span class="source">来源：卫生院</span>
+                                <span class="deadline">截止：2024-10-20</span>
+                                <span class="status processing">进行中</span>
+                            </p>
+                            <p class="task-desc">更新村民基本健康信息，包括慢性病情况</p>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn btn-sm btn-secondary">查看进度</button>
+                        </div>
+                    </div>
+
+                    <div class="task-item">
+                        <div class="task-info">
+                            <h4>低保户信息核查</h4>
+                            <p class="task-meta">
+                                <span class="source">来源：民政局</span>
+                                <span class="deadline">截止：2024-10-25</span>
+                                <span class="status completed">已完成</span>
+                            </p>
+                            <p class="task-desc">核查现有低保户信息的准确性</p>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn btn-sm btn-success">查看结果</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 表格识别页面 -->
+            <section id="upload" class="tab-content">
+                <div class="content-header">
+                    <h2>表格上传与识别</h2>
+                </div>
+                
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>上传表格文件</h3>
+                        <p>支持拍照上传或选择文件上传</p>
+                        <div class="upload-buttons">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-camera"></i> 拍照上传
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-file"></i> 选择文件
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="recognition-result" id="recognitionResult" style="display: none;">
+                        <h3>识别结果</h3>
+                        <div class="table-preview">
+                            <h4>农户收入统计表</h4>
+                            <div class="field-list">
+                                <div class="field-item">
+                                    <span class="field-name">户主姓名</span>
+                                    <span class="field-status existing">已有数据</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">身份证号</span>
+                                    <span class="field-status existing">已有数据</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">种植收入</span>
+                                    <span class="field-status new">需要收集</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">养殖收入</span>
+                                    <span class="field-status new">需要收集</span>
+                                </div>
+                                <div class="field-item">
+                                    <span class="field-name">其他收入</span>
+                                    <span class="field-status new">需要收集</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary">确认字段</button>
+                                <button class="btn btn-secondary">手动编辑</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 村民通知页面 -->
+            <section id="notify" class="tab-content">
+                <div class="content-header">
+                    <h2>发送填表通知</h2>
+                </div>
+                
+                <div class="notify-form">
+                    <div class="form-group">
+                        <label>选择通知对象</label>
+                        <div class="target-selection">
+                            <button class="btn btn-outline active">全体村民 (156人)</button>
+                            <button class="btn btn-outline">农户 (89人)</button>
+                            <button class="btn btn-outline">自定义筛选</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>填表内容预览</label>
+                        <div class="form-preview">
+                            <h4>农户收入统计表</h4>
+                            <div class="preview-fields">
+                                <div class="preview-field">
+                                    <label>种植收入：</label>
+                                    <input type="text" placeholder="请输入种植收入（元）" readonly>
+                                </div>
+                                <div class="preview-field">
+                                    <label>养殖收入：</label>
+                                    <input type="text" placeholder="请输入养殖收入（元）" readonly>
+                                </div>
+                                <div class="preview-field">
+                                    <label>其他收入：</label>
+                                    <input type="text" placeholder="请输入其他收入（元）" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>通知消息</label>
+                        <textarea placeholder="请各位村民及时填写农户收入统计信息，截止时间为10月15日..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>截止时间</label>
+                        <input type="datetime-local" value="2024-10-15T18:00">
+                    </div>
+
+                    <button class="btn btn-primary btn-large">
+                        <i class="fas fa-paper-plane"></i> 发送通知
+                    </button>
+                </div>
+            </section>
+
+            <!-- 数据管理页面 -->
+            <section id="data" class="tab-content">
+                <div class="content-header">
+                    <h2>数据管理</h2>
+                    <div class="data-tabs">
+                        <button class="tab-btn active" data-data-tab="current">当前任务</button>
+                        <button class="tab-btn" data-data-tab="village">村级大表</button>
+                    </div>
+                </div>
+
+                <div id="current" class="data-tab-content active">
+                    <div class="progress-summary">
+                        <div class="progress-card">
+                            <h4>填表进度</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 68%"></div>
+                            </div>
+                            <p>68/100 已完成</p>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-number">68</span>
+                                <span class="stat-label">已提交</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">32</span>
+                                <span class="stat-label">待填写</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">5</span>
+                                <span class="stat-label">需修改</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>户主姓名</th>
+                                    <th>种植收入</th>
+                                    <th>养殖收入</th>
+                                    <th>其他收入</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>张三</td>
+                                    <td>25,000</td>
+                                    <td>8,000</td>
+                                    <td>2,000</td>
+                                    <td><span class="status completed">已完成</span></td>
+                                    <td><button class="btn btn-sm">查看</button></td>
+                                </tr>
+                                <tr>
+                                    <td>李四</td>
+                                    <td>30,000</td>
+                                    <td>-</td>
+                                    <td>5,000</td>
+                                    <td><span class="status pending">待审核</span></td>
+                                    <td><button class="btn btn-sm">审核</button></td>
+                                </tr>
+                                <tr>
+                                    <td>王五</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><span class="status not-started">未填写</span></td>
+                                    <td><button class="btn btn-sm">提醒</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="village" class="data-tab-content">
+                    <div class="village-table-info">
+                        <h3>村级数据大表</h3>
+                        <p>包含全村所有村民的基础信息和历史填表数据</p>
+                        <div class="table-stats">
+                            <span>总记录数：156条</span>
+                            <span>字段数：23个</span>
+                            <span>最后更新：2024-09-26</span>
+                        </div>
+                    </div>
+                    
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>身份证号</th>
+                                    <th>联系电话</th>
+                                    <th>家庭住址</th>
+                                    <th>种植收入</th>
+                                    <th>养殖收入</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>张三</td>
+                                    <td>320***********1234</td>
+                                    <td>138****5678</td>
+                                    <td>张家村1组</td>
+                                    <td>25,000</td>
+                                    <td>8,000</td>
+                                    <td><button class="btn btn-sm">详情</button></td>
+                                </tr>
+                                <tr>
+                                    <td>李四</td>
+                                    <td>320***********5678</td>
+                                    <td>139****1234</td>
+                                    <td>张家村2组</td>
+                                    <td>30,000</td>
+                                    <td>-</td>
+                                    <td><button class="btn btn-sm">详情</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
